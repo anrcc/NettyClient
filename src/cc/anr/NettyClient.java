@@ -13,7 +13,7 @@ import cc.anr.handlers.TimeClientHandler;
 public class NettyClient {
 
 	public static void main(String[] args) throws Exception {
-		  String host = "52.88.252.101";
+		  String host = "107.191.52.253";
 		 // String host = "127.0.0.1";
 	      int port = 58888;
 	      EventLoopGroup workerGroup = new NioEventLoopGroup();
