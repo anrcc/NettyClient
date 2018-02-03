@@ -1,10 +1,13 @@
 package cc.anr;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -14,6 +17,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class NettyClient {
 	 private final String host;  
 	    private final int port;  
+		public static final ExecutorService pool = Executors.newFixedThreadPool(150);// 初级版本
+	    public static ChannelHandlerContext ctx=null;
 	  
 	    public NettyClient(String host, int port) {  
 	        this.host = host;  
@@ -39,6 +44,7 @@ public class NettyClient {
 	                public void operationComplete(ChannelFuture future) throws Exception {  
 	                    if(future.isSuccess()){  
 	                        System.out.println("client connected");  
+
 	                    }else{  
 	                        System.out.println("server attemp failed");  
 	                        future.cause().printStackTrace();  
@@ -47,6 +53,10 @@ public class NettyClient {
 	                }  
 	            });  
 	            f.channel().closeFuture().sync();  
+                System.out.println("client closeFuture");  
+
+	        }catch (Exception e) {
+	        e.printStackTrace();
 	        } finally {  
 	            group.shutdownGracefully().sync();  
 	        }  
@@ -54,6 +64,6 @@ public class NettyClient {
 	  
 	    public static void main(String[] args) throws Exception {  
 	      
-	        new NettyClient("127.0.0.1", 3331).start();  
+	        new NettyClient("192.168.1.114", 3331).start();  
 	    }  
 }

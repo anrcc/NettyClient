@@ -5,16 +5,21 @@ import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
 @Sharable  
-public class MyClientHandler extends SimpleChannelInboundHandler<ByteBuf> {  
-    /** 
+public class MyClientHandler extends ChannelInboundHandlerAdapter {  
+  
+	
+	  /** 
      *此方法会在连接到服务器后被调用  
      * */  
     public void channelActive(ChannelHandlerContext ctx) {  
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!", CharsetUtil.UTF_8));  
+    	NettyClient.ctx=ctx;
+        
+
     }  
     /** 
      *此方法会在接收到服务器数据后调用  
